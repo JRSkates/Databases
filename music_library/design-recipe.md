@@ -13,10 +13,10 @@ Otherwise, [follow this recipe to design and create the SQL schema for your tabl
 ```
 # EXAMPLE
 
-Table: students
+Table: artists
 
 Columns:
-id | name | cohort_name
+id | name | genre
 ```
 
 ## 2. Create Test SQL seeds
