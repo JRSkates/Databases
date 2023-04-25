@@ -4,7 +4,8 @@ class AlbumRepository
   def all
     sql = 'SELECT id, title, release_year, artist_id FROM albums'
     result_set = DatabaseConnection.exec_params(sql, [])
-  
+     # result_set is a PG::Result object which is an array 
+     # of hashes one hash per row in the result set
      albums_array = []
 
      result_set.each do |record|
@@ -19,5 +20,4 @@ class AlbumRepository
 
      return albums_array
   end
-
 end
