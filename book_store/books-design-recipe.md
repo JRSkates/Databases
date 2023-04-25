@@ -61,7 +61,7 @@ Usually, the Model class name will be the capitalised table name (single instead
 
 # Model class
 # (in lib/book.rb)
-class Album
+class Book
 end
 
 # Repository class
@@ -157,11 +157,11 @@ This is so you get a fresh table contents every time you run the test suite.
 
 # file: spec/artist_repository_spec.rb
 
-RSpec.describe AlbumRepository do
+RSpec.describe BookRepository do
 
   def reset_artists_table 
-    seed_sql = File.read('spec/seeds_albums.sql')
-    connection = PG.connect({ host: '127.0.0.1', dbname: 'music_library_test' })
+    seed_sql = File.read('spec/seeds_books.sql')
+    connection = PG.connect({ host: '127.0.0.1', dbname: 'book_store_test' })
     connection.exec(seed_sql)
   end
 
