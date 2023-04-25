@@ -1,4 +1,4 @@
-# Music Library Model and Repository Classes Design Recipe
+# Book Store Model and Repository Classes Design Recipe
 
 _Copy this recipe template to design and implement Model and Repository classes for a database table._
 
