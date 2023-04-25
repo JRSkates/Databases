@@ -4,7 +4,7 @@ class BookRepository
 
     # Selecting all records
     # No arguments
-  def all
+  def self.all
     sql = 'SELECT id, title, author_name FROM books'
     result_set = DatabaseConnection.exec_params(sql, [])
 

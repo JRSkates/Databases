@@ -6,9 +6,9 @@ require_relative 'lib/book_repository'
 # We need to give the database name to the method `connect`.
 DatabaseConnection.connect('book_store')
 
-book_repo = BookRepository.new
+book_repo = BookRepository.all
 
-book_repo.all.each do |book|
+book_repo.each do |book|
   puts "#{book.id} - #{book.title} - #{book.author_name}"
 end
 
