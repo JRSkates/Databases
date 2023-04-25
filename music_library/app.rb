@@ -19,3 +19,5 @@ puts
 album_repository.all.each do |album|
   puts "#{album.id} - #{album.title} - #{album.release_year}"
 end
+
+# album_repository.find(14) => returns "14 - 2001 - 1999"
