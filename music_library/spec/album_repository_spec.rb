@@ -44,4 +44,38 @@ RSpec.describe AlbumRepository do
       expect(album.id).to eq '2'
     end
   end
+
+  context 'With the create method' do
+    it 'adds a new album to the database' do
+      repo = AlbumRepository.new
+
+      album = Album.new
+      album.title = 'Rumours'
+      album.release_year = 1977
+      album.artist_id = '2'
+
+      repo.create(album) # => nil
+
+      albums = repo.all
+      last_album = albums.last 
+
+      expect(last_album.title).to eq 'Rumours'
+      expect(last_album.release_year).to eq '1977'
+      expect(last_album.artist_id).to eq '2'
+    end
+  end
+
+  context 'With the delete method' do
+    it 'deletes the album from the database' do
+      repo = AlbumRepository.new
+
+      repo.delete(1)
+
+      albums = repo.all
+      first_album = albums.first
+
+      expect(first_album.title).to eq 'Surfer Rosa'
+      expect(first_album.release_year).to eq '2001'
+    end
+  end
 end
