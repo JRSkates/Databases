@@ -70,8 +70,10 @@ CREATE TABLE students (
 );
 ```
 
-## 5. Create the table.
+## 5. Create the table within your main database and your test database.
 
 ```bash
-psql -h 127.0.0.1 recipes_directory < recipes_table.sql
+psql -h 127.0.0.1 recipes_directory < recipes_table.sql;
+
+psql -h 127.0.0.1 recipes_directory_test < recipes_table.sql;
 ```
