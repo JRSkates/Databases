@@ -5,19 +5,23 @@ _Copy this recipe template to design and create a database table from a specific
 ## 1. Extract nouns from the user stories or specification
 
 ```
-As a coach
-So I can get to know all students
-I want to see a list of students' names.
+As a food lover,
+So I can stay organised and decide what to cook,
+I'd like to keep a list of all my recipes with their names.
 
-As a coach
-So I can get to know all students
-I want to see a list of students' cohorts.
+As a food lover,
+So I can stay organised and decide what to cook,
+I'd like to keep the average cooking time (in minutes) for each recipe.
+
+As a food lover,
+So I can stay organised and decide what to cook,
+I'd like to give a rating to each of the recipes (from 1 to 5).
 ```
 
 ```
 Nouns:
 
-names, cohorts, 
+recipes, name, average_cooking_time, rating
 
 ```
 
@@ -25,13 +29,13 @@ names, cohorts,
 
 Put the different nouns in this table. Replace the example with your own nouns.
 
-| Record                | Properties          |
-| --------------------- | ------------------  |
-| student               | full_name, cohort
+| Record                | Properties                            |
+| --------------------- | ------------------------------------- |
+| recipe                | dish_name, average_cooking_time, rating
 
-Name of the table (always plural): `students` 
+Name of the table (always plural): `recipes` 
 
-Column names: `full_name`, `cohort`
+Column names: `dish_name`, `average_cooking_time`, `rating`
 
 ## 3. Decide the column types.
 
@@ -45,8 +49,9 @@ Remember to **always** have the primary key `id` as a first column. Its type wil
 # EXAMPLE:
 
 id: SERIAL
-full_name: text
-cohort: text
+dish_name: text
+average_cooking_time: int
+rating: int
 ```
 
 ## 4. Write the SQL.
@@ -59,13 +64,14 @@ cohort: text
 
 CREATE TABLE students (
   id SERIAL PRIMARY KEY,
-  full_name text,
-  cohort text,
+  dish_name text,
+  average_cooking_time int,
+  rating int
 );
 ```
 
 ## 5. Create the table.
 
 ```bash
-psql -h 127.0.0.1 student_directory_1 < students_table.sql
+psql -h 127.0.0.1 recipes_directory < recipes_table.sql
 ```

@@ -16,7 +16,7 @@ Otherwise, [follow this recipe to design and create the SQL schema for your tabl
 Table: recipes
 
 Columns:
-id | title | author_name
+id | dish_name | average_cooking_time | rating
 ```
 
 ## 2. Create Test SQL seeds
@@ -35,19 +35,19 @@ If seed data is provided (or you already created it), you can skip this step.
 -- so we can start with a fresh state.
 -- (RESTART IDENTITY resets the primary key)
 
-TRUNCATE TABLE books RESTART IDENTITY;
+TRUNCATE TABLE recipes RESTART IDENTITY;
 
 -- Below this line there should only be `INSERT` statements.
 -- Replace these statements with your own seed data.
 
-INSERT INTO books (title, author_name) VALUES ('Nineteen Eighty-Four', 'George Orwell');
+INSERT INTO recipes (dish_name, average_cooking_time, rating) VALUES ('Pizza', 12, 5);
 
 ```
 
 Run this SQL file on the database to truncate (empty) the table, and insert the seed data. Be mindful of the fact any existing records in the table will be deleted.
 
 ```bash
- psql -h 127.0.0.1 book_store_test < /spec/seeds_books.sql;
+ psql -h 127.0.0.1 recipes_directory_test < seeds_recipes.sql;
 ```
 This was created from the terminal within the directory containing the database file
 
@@ -60,13 +60,13 @@ Usually, the Model class name will be the capitalised table name (single instead
 # Table name: books
 
 # Model class
-# (in lib/book.rb)
-class Book
+# (in lib/recipe.rb)
+class Recipe
 end
 
 # Repository class
-# (in lib/book_repository.rb)
-class BookRepository
+# (in lib/recipe_repository.rb)
+class RecipeRepository
 end
 ```
 
@@ -76,14 +76,13 @@ Define the attributes of your Model class. You can usually map the table columns
 
 ```ruby
 # EXAMPLE
-# Table name: books
+# Table name: recipes
 
 # Model class
-# (in lib/book.rb)
+# (in lib/recipe.rb)
 
-class Book
-
-  attr_accessor :id, :title, :author_name,
+class Recipe
+    attr_accessor :id, :dish_name, :average_cooking_time, :rating
 end
 
 # The keyword attr_accessor is a special Ruby feature
@@ -105,20 +104,27 @@ Using comments, define the method signatures (arguments and return value) and wh
 
 ```ruby
 # EXAMPLE
-# Table name: books
+# Table name: recipes
 
 # Repository class
-# (in lib/book_repository.rb)
+# (in lib/recipe_repository.rb)
 
-class BookRepository
+class RecipeRepository
 
   # Selecting all records
   # No arguments
   def all
     # Executes the SQL query:
-    # SELECT id, title, author_name FROM books;
+    # SELECT id, dish_name, average_cooking_time, rating FROM recipes;
 
-    # Returns an array of Book objects.
+    # Returns an array of Recipe objects.
+  end
+
+  def find(id)
+    # Executes the SQL query
+    # SELECT id, dish_name, average_cooking_time, rating FROM recipes WHERE id = $1;
+
+    # Returns an array of 1 Recipe object
   end
 end
 ```
@@ -133,14 +139,25 @@ These examples will later be encoded as RSpec tests.
 # EXAMPLES
 
 # 1
-# Get all books
+# Get all recipes
 
-repo = BookRepository.new #seeded from our test seed with 1 column
+repo = RecipeRepository.new #seeded from our test seed with 1 column
 
-books = repo.all # => 
-books.length # => 1
-books.first.title # => 'Nineteen Eighty-Four'
-books.first.author_name # => 'George Orwell'
+recipes = repo.all # => 
+recipes.length # => 1
+recipes.first.dish_name # => 'Pizza'
+recipes.first.average_cooking_time # => '12'
+recipes.first.rating # => '5'
+
+# 2 
+# Get one recipe
+
+repo = RecipeRepository.new
+
+recipe = repo.find(1)
+recipe.dish_name # => 'Pizza'
+recipe.average_cooking_time # => '12'
+recipe.rating # => '5'
 
 ```
 
@@ -160,8 +177,8 @@ This is so you get a fresh table contents every time you run the test suite.
 RSpec.describe BookRepository do
 
   def reset_artists_table 
-    seed_sql = File.read('spec/seeds_books.sql')
-    connection = PG.connect({ host: '127.0.0.1', dbname: 'book_store_test' })
+    seed_sql = File.read('spec/seeds.sql')
+    connection = PG.connect({ host: '127.0.0.1', dbname: 'recipe_repository_test' })
     connection.exec(seed_sql)
   end
 
