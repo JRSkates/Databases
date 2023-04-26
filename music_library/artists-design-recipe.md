@@ -122,10 +122,31 @@ class ArtistRepository
   end
 
   def find(id)
-    # Performs an SQL SELECT query WHERE id = id and returns a single Arist object
-    # SELECT id, name, genre FROM artists WHERE id = $1
+    # Performs an SQL SELECT query WHERE id = id and returns a single Artist object
+    # SELECT id, name, genre FROM artist WHERE id = $1
 
     # Returns a single Artist object
+  end
+
+  def create(artists)
+    # Executes the SQL query
+    # INSERT INTO artists (name, genre) VALUES ($1, $2)
+
+    # No return value, creates the record on database
+  end
+
+  def delete(id)
+    # Executes the SQL query
+    # DELETE FROM artists WHERE id = $1
+
+    #No return value, deletes the record on database
+  end
+
+  def update(album)
+    # Executes the SQL query
+    # UPDATE artists SET name = $1, genre = $2 WHERE id = $3
+
+    # No return value, updates the record on database
   end
 end
 ```
@@ -157,6 +178,39 @@ repo = ArtistRepository.new #seeded from our test seed with
 artist = repo.find(1)
 artist.name # => 'Pixies'
 artist.genre # => 'Rock'
+
+# 4
+# Create a new artist record on the database
+
+repo = ArtistRepository.new
+
+artist = Artist.new
+artist.name = 'Fleetwood Mac'
+artist.genre = 'Rock'
+
+repo.create(artist) # => nil
+
+artists = repo.all
+last_artist = artists.last 
+
+last_artist.id # => '3'
+last_artist.name # => 'Fleetwood Mac'
+last_artist.genre # => 'Rock'
+
+# 5
+# Delete an album from the database
+
+repo = ArtistRepository.new
+# 'Pixies', 'Rock'
+repo.delete(1)
+
+artists = repo.all
+first_artist = artists.first
+
+first_artist.id # => '2'
+first_artist.name # => 'ABBA'
+first_artist.genre # => 'Pop'
+
 ```
 
 Encode this example as a test.

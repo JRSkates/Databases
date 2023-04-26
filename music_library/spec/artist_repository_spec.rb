@@ -12,20 +12,55 @@ RSpec.describe ArtistRepository do
     reset_artists_table
   end
 
-  it 'returns an array of Artist objects' do
-    repo = ArtistRepository.new
-    artists = repo.all
-
-    expect(artists.length).to eq 2
-    expect(artists.first.id).to eq '1'
-    expect(artists.first.name).to eq 'Pixies'
+  context 'The All Method' do
+    it 'returns an array of Artist objects' do
+      repo = ArtistRepository.new
+      artists = repo.all
+  
+      expect(artists.length).to eq 2
+      expect(artists.first.id).to eq '1'
+      expect(artists.first.name).to eq 'Pixies'
+    end
   end
 
-  it 'returns a single Artist object' do
-    repo = ArtistRepository.new
-    artist = repo.find(1)
+  context 'The Find Method' do
+    it 'returns a single Artist object' do
+      repo = ArtistRepository.new
+      artist = repo.find(1)
+  
+      expect(artist.name).to eq 'Pixies'
+      expect(artist.genre).to eq 'Rock'
+    end
+  end
 
-    expect(artist.name).to eq 'Pixies'
-    expect(artist.genre).to eq 'Rock'
+  context 'The Create Method' do
+    it 'creates a new artist at the end of the line' do
+      repo = ArtistRepository.new
+
+      artist = Artist.new
+      artist.name = 'Fleetwood Mac'
+      artist.genre = 'Rock'
+
+      repo.create(artist)
+
+      artists = repo.all
+      last_artist = artists.last 
+
+      expect(last_artist.id).to eq '3'
+      expect(last_artist.name).to eq 'Fleetwood Mac'
+      expect(last_artist.genre).to eq 'Rock'
+    end
+  end
+
+  context 'The Delete Method' do
+    it "deletes the first artist" do
+      repo = ArtistRepository.new
+      repo.delete(1)
+      artists = repo.all
+      first_artist = artists.first
+      expect(first_artist.id).to eq '2'
+      expect(first_artist.name).to eq 'ABBA'
+      expect(first_artist.genre).to eq 'Pop'
+    end
   end
 end
