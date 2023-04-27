@@ -100,7 +100,7 @@ Replace the relevant bits in this example with your own:
 -> An post HAS MANY comments
 -> A comment BELONGS TO a post
 
--> Therefore, the foreign key is on the concerts table.
+-> Therefore, the foreign key is on the comments table.
 ```
 
 *If you can answer YES to the two questions, you'll probably have to implement a Many-to-Many relationship, which is more complex and needs a third table (called a join table).*
