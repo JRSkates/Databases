@@ -78,4 +78,22 @@ RSpec.describe AlbumRepository do
       expect(first_album.release_year).to eq '2001'
     end
   end
+
+  context 'With the update method' do
+    it 'updates the album from the database' do
+      repo = AlbumRepository.new
+
+      orginal_album = repo.find(1)
+      
+      orginal_album.title = 'DAMN'
+      orginal_album.release_year = '2017'
+      
+      repo.update(orginal_album)
+      
+      updated_album = repo.find(1)
+
+      expect(updated_album.title).to eq 'DAMN'
+      expect(updated_album.release_year).to eq '2017'
+    end
+  end
 end

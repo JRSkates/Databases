@@ -216,6 +216,20 @@ first_album = albums.first
 first_album.title # => 'Surfer Rosa'
 first_album.release_year # => '2001'
 
+# 5
+# Update a album from the database
+
+repo = AlbumRepository.new
+
+orginal_album = albums.find(1)
+
+orginal_album.title = 'DAMN'
+orginal_album.release_year = '2017'
+
+repo.update(orginal_album)
+
+updated_album = repo.find(1)
+
 # Add more examples for each method
 ```
 

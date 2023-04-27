@@ -66,7 +66,10 @@ class AlbumRepository
 
   def update(album)
     # Executes the SQL query
-    # UPDATE albums SET title = $1, release_year = $2 WHERE id = $3
+    sql = 'UPDATE albums SET title = $1, release_year = $2 WHERE id = $3;'
+    param = [album.title, album.release_year, album.id]
+
+    DatabaseConnection.exec_params(sql, param)
     return nil
     # No return value, updates the record on database
   end

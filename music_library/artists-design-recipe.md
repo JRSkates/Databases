@@ -198,7 +198,7 @@ last_artist.name # => 'Fleetwood Mac'
 last_artist.genre # => 'Rock'
 
 # 5
-# Delete an album from the database
+# Delete an artist from the database
 
 repo = ArtistRepository.new
 # 'Pixies', 'Rock'
@@ -210,6 +210,23 @@ first_artist = artists.first
 first_artist.id # => '2'
 first_artist.name # => 'ABBA'
 first_artist.genre # => 'Pop'
+
+# 6 
+# Update an existing artist
+
+repo = ArtistRepository.new
+
+original_artist = repo.find(1)
+
+original_artist.name = 'Kendrick Lamar'
+original_artist.genre = 'Hip-Hop'
+
+repo.update(original_artist)
+
+updated_artist = repo.find(1)
+
+updated_artist.name # => 'Kendrick Lamar'
+updated_artist.genre # => 'Hip-Hop'
 
 ```
 

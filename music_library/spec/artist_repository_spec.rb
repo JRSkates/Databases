@@ -63,4 +63,22 @@ RSpec.describe ArtistRepository do
       expect(first_artist.genre).to eq 'Pop'
     end
   end
+
+  context 'The Update Method' do
+    it "updates the artist selected" do
+      repo = ArtistRepository.new
+
+      original_artist = repo.find(1)
+      
+      original_artist.name = 'Kendrick Lamar'
+      original_artist.genre = 'Hip-Hop'
+      
+      repo.update(original_artist)
+      
+      updated_artist = repo.find(1)
+      
+      expect(updated_artist.name).to eq 'Kendrick Lamar'
+      expect(updated_artist.genre).to eq 'Hip-Hop'
+    end
+  end
 end
