@@ -1,38 +1,54 @@
-# Two Tables Design Recipe Template
+# Social Network Two Tables Design Recipe Template
 
 _Copy this recipe template to design and create two related database tables from a specification._
 
 ## 1. Extract nouns from the user stories or specification
 
 ```
-# EXAMPLE USER STORY:
-# (analyse only the relevant part - here the final line).
+As a social network user,
+So I can have my information registered,
+I'd like to have a user account with my email address.
 
+As a social network user,
+So I can have my information registered,
+I'd like to have a user account with my username.
 
+As a social network user,
+So I can write on my timeline,
+I'd like to create posts associated with my user account.
+
+As a social network user,
+So I can write on my timeline,
+I'd like each of my posts to have a title and a content.
+
+As a social network user,
+So I can know who reads my posts,
+I'd like each of my posts to have a number of views.
 ```
 
 ```
 Nouns:
 
-album, title, release year, artist, name
+user, username, email address, post, title, content, view count
+
 ```
 
 ## 2. Infer the Table Name and Columns
 
 Put the different nouns in this table. Replace the example with your own nouns.
 
-| Record                | Properties          |
-| --------------------- | ------------------  |
-|                       | 
-|                       | 
+| Record                | Properties                            |
+| --------------------- | ------------------------------------  |
+| user                  | username, email
+| post                  | title, content, view_count, user_id
 
-1. Name of the first table (always plural): `xs` 
+1. Name of the first table (always plural): `users` 
 
-    Column names: `y`, `z`
+    Column names: `username`, `email`
 
-2. Name of the second table (always plural): `as` 
+2. Name of the second table (always plural): `posts` 
 
-    Column names: `b`
+    Column names: `title`, `content`, `view_count`, `user_id`
 
 ## 3. Decide the column types.
 
@@ -45,12 +61,17 @@ Remember to **always** have the primary key `id` as a first column. Its type wil
 ```
 # EXAMPLE:
 
-Table:
+Table: users
 id: SERIAL
+username: text
+email: text 
 
-
-Table: 
+Table: posts
 id: SERIAL
+title: text
+content: text
+view_count: int
+
 
 ```
 
@@ -74,14 +95,14 @@ Replace the relevant bits in this example with your own:
 ```
 # EXAMPLE
 
-1. Can one A have many Bs? YES
-2. Can one B have many As? NO
+1. Can one user have many posts? YES
+2. Can one post have many users? NO
 
 -> Therefore,
--> An A HAS MANY Bs
--> An B BELONGS TO an A
+-> A user HAS MANY posts
+-> An post BELONGS TO a user
 
--> Therefore, the foreign key is on the Bs table.
+-> Therefore, the foreign key is on the posts table.
 ```
 
 *If you can answer YES to the two questions, you'll probably have to implement a Many-to-Many relationship, which is more complex and needs a third table (called a join table).*
@@ -90,26 +111,28 @@ Replace the relevant bits in this example with your own:
 
 ```sql
 -- EXAMPLE
--- file: _table.sql
+-- file: social_network_table.sql
 
 -- Replace the table name, columm names and types.
 
 -- Create the table without the foreign key first.
-CREATE TABLE As (
+CREATE TABLE Users (
   id SERIAL PRIMARY KEY,
-  name text,
-  
+  username text,
+  email text
 );
 
 -- Then the table with the foreign key.
-CREATE TABLE Bs (
+CREATE TABLE Posts (
   id SERIAL PRIMARY KEY,
-  name text, 
+  title text,
+  content text,
+  view_count int,
 
 -- The foreign key name is always {other_table_singular}_id
-  _id int,
-  constraint fk_foreign key(_id)
-    references s(id)
+  user_id int,
+  constraint fk_user foreign key(user_id)
+    references users(id)
     on delete cascade
 );
 
@@ -118,5 +141,7 @@ CREATE TABLE Bs (
 ## 5. Create the tables.
 
 ```bash
-psql -h 127.0.0.1 database_name < _table.sql
+psql -h 127.0.0.1 social_network < social_network_table.sql
+psql -h 127.0.0.1 social_network_test < social_network_table.sql
+
 ```
